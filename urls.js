@@ -1,7 +1,13 @@
 const urls = [
   {
     title: '基础页面',
-    name: 'base'
+    name: 'base',
+    show: true
+  },
+  {
+    title: '第三人称视角',
+    name: 'cameraWalk',
+    show: true
   }
 ];
 const map = {};

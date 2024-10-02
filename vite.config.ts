@@ -11,8 +11,6 @@ export default defineConfig(({ mode }) => {
       minify: false,
 
       rollupOptions: {
-        external: ['cesium'],
-
         input: urls.map,
         output: {
           entryFileNames: '[name]/index.js'
