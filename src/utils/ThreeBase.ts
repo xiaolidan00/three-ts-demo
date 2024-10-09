@@ -5,7 +5,7 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 export default class ThreeBase {
   container: HTMLElement;
-  camera?: THREE.Camera;
+  camera?: THREE.PerspectiveCamera;
   scene?: THREE.Scene;
   renderer?: THREE.WebGLRenderer;
   stats?: Stats;
@@ -158,9 +158,7 @@ export default class ThreeBase {
 
   onResize() {
     if (this.container && this.camera && this.renderer) {
-      //@ts-ignore
       this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
-      //@ts-ignore
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
     }

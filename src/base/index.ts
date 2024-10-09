@@ -1,8 +1,14 @@
 import * as THREE from 'three';
 
 import ThreeBase from '../utils/ThreeBase';
+import { createGui } from '../utils/gui';
 
 class MyThree extends ThreeBase {
+  dataObj = {
+    num: 0,
+    color: '#FFFFFF',
+    select: 'aaa'
+  };
   constructor(el: HTMLElement) {
     super(el);
   }
@@ -12,7 +18,23 @@ class MyThree extends ThreeBase {
     const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const cube = new THREE.Mesh(geometry, material);
     this.scene.add(cube);
+    this.dataObj = createGui(
+      this.dataObj,
+      [
+        { type: 'number', name: 'num', label: '数值', min: 0, max: 100, step: 1 },
+        { type: 'color', name: 'color', label: '颜色' },
+        { type: 'select', name: 'select', label: '选择', options: { a: 1, b: 2, c: 3 } },
+        { type: 'switch', name: 'switch', label: '开关' },
+        { type: 'text', name: '', label: '文本文本文本' }
+      ],
+      (v: any, k: string) => {
+        console.log(k, v);
+      }
+    );
 
+    setTimeout(() => {
+      this.dataObj.num = 60;
+    });
     this.animate(0);
   }
   animateAction(time: number) {}

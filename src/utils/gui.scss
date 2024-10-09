@@ -1,0 +1,32 @@
+.gui-container {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+
+  line-height: 30px;
+  background-color: #505050;
+  color: white;
+  font-size: 14px;
+  width: 200px;
+  padding: 4px;
+  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
+  > div {
+    display: flex;
+    align-items: center;
+    &:not(:last-child) {
+      border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+    }
+    > label {
+      flex: 1;
+    }
+    > input,
+    > select {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      width: 120px;
+    }
+  }
+}
