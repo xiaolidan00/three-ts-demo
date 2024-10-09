@@ -38,9 +38,7 @@ export type GuiType = { label: string; name: string } & (
       type: 'select';
       options: { [n: string | number]: number | string | boolean } | string[] | number[];
     }
-  | { type: 'color' }
-  | { type: 'text' }
-  | { type: 'switch' }
+  | { type: 'color' | 'switch' | 'text' | 'button' }
 );
 
 export function createGui(data: any, config: GuiType[], onChange: Function) {
@@ -69,9 +67,26 @@ export function createGui(data: any, config: GuiType[], onChange: Function) {
       div.innerHTML = item.label;
     } else if (item.type === 'switch') {
       div.innerHTML = `<label>${item.label}</label><input type="checkbox" value="${v}" name="${n}" id="${id}">`;
+    } else if (item.type === 'button') {
+      div.innerHTML = `<button>${item.label}</button>`;
     }
     dom.appendChild(div);
     if (item.type === 'text') return;
+    if (item.type === 'button' && div.firstElementChild) {
+      (div.firstElementChild as HTMLButtonElement).onclick = () => {
+        div.firstElementChild?.classList.toggle('active');
+        dataObj[item.name] = !dataObj[item.name];
+        if (div.firstElementChild) {
+          if (!dataObj[item.name] && div.firstElementChild.classList.contains('active')) {
+            div.firstElementChild.classList.remove('active');
+          } else if (dataObj[item.name] && !div.firstElementChild.classList.contains('active')) {
+            div.firstElementChild.classList.add('active');
+          }
+        }
+      };
+
+      return;
+    }
     const input = document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
     if (input) {
       input.onchange = () => {

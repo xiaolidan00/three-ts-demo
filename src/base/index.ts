@@ -7,7 +7,9 @@ class MyThree extends ThreeBase {
   dataObj = {
     num: 0,
     color: '#FFFFFF',
-    select: 'aaa'
+    select: 'aaa',
+    switch: false,
+    button: false
   };
   constructor(el: HTMLElement) {
     super(el);
@@ -25,7 +27,8 @@ class MyThree extends ThreeBase {
         { type: 'color', name: 'color', label: '颜色' },
         { type: 'select', name: 'select', label: '选择', options: { a: 1, b: 2, c: 3 } },
         { type: 'switch', name: 'switch', label: '开关' },
-        { type: 'text', name: '', label: '文本文本文本' }
+        { type: 'text', name: '', label: '文本文本文本' },
+        { type: 'button', name: 'button', label: '按钮' }
       ],
       (v: any, k: string) => {
         console.log(k, v);
