@@ -23,6 +23,11 @@ const urls = [
     title: '发光球体',
     name: 'glow',
     show: true
+  },
+  {
+    title: '拖拽移动调整大小旋转',
+    name: 'moveResizeRotate',
+    show: true
   }
 ];
 const map = {};
