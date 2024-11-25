@@ -1,4 +1,4 @@
-import './gui.scss';
+// import './gui.scss';
 
 export function reactive(target: any, onChange: Function) {
   const updateVal = (target: any, key: string | symbol, value: any) => {
@@ -26,7 +26,7 @@ export function reactive(target: any, onChange: Function) {
         //trigger(target, key);
 
         updateVal(target, key, value);
-        onChange(target, key);
+        onChange(target[key], key);
       }
       return result;
     }
@@ -60,13 +60,15 @@ export function createGui(data: any, config: GuiType[], onChange: Function) {
       const options = Array.isArray(item.options)
         ? item.options.map((it) => `<option value="${it}">${it}</option>`).join('')
         : Object.keys(item.options)
-            .map((it) => `<option value="${item.options[it]}">${it}</option>`)
+            .map((it) => `<option value="${(item.options as any)[it]}">${it}</option>`)
             .join('');
       div.innerHTML = `<label>${item.label}</label><select  value="${v}" name="${n}" id="${id}">${options}</select>`;
     } else if (item.type === 'text') {
       div.innerHTML = item.label;
     } else if (item.type === 'switch') {
-      div.innerHTML = `<label>${item.label}</label><input type="checkbox" value="${v}" name="${n}" id="${id}">`;
+      div.innerHTML = `<label>${item.label}</label><input type="checkbox" ${
+        v === true ? 'checked' : ''
+      } name="${n}" id="${id}">`;
     } else if (item.type === 'button') {
       div.innerHTML = `<button>${item.label}</button>`;
     }

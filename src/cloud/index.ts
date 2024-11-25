@@ -15,14 +15,10 @@ class MyThree extends ThreeBase {
     super(el);
   }
   init() {
-    const geometry = new THREE.BoxGeometry(1, 2, 3);
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const cube = new THREE.Mesh(geometry, material);
-    cube.rotation.z = Math.PI * 0.5;
     this.scene.add(cube);
-
-    const box = new THREE.Box3().setFromObject(cube);
-    console.log(cube, box.getSize(cube.parent!.position));
     this.dataObj = createGui(
       this.dataObj,
       [

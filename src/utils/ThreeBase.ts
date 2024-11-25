@@ -5,9 +5,9 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 export default class ThreeBase {
   container: HTMLElement;
-  camera?: THREE.PerspectiveCamera;
-  scene?: THREE.Scene;
-  renderer?: THREE.WebGLRenderer;
+  camera: THREE.PerspectiveCamera;
+  scene: THREE.Scene;
+  renderer: THREE.WebGLRenderer;
   stats?: Stats;
   isStats: boolean = true;
   isAxis: boolean = true;
@@ -17,17 +17,14 @@ export default class ThreeBase {
 
   constructor(el: HTMLElement) {
     this.container = el;
-  }
-  initThree(renderOptions?: THREE.WebGLRendererParameters) {
+
     THREE.Cache.enabled = true;
 
-    this.renderer = new THREE.WebGLRenderer(
-      renderOptions || {
-        antialias: true,
-        alpha: true,
-        logarithmicDepthBuffer: false
-      }
-    );
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      logarithmicDepthBuffer: false
+    });
 
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.clear();
@@ -50,6 +47,7 @@ export default class ThreeBase {
       let stats = new Stats();
       stats.dom.style.position = 'absolute';
       stats.dom.style.top = '0px';
+      this.stats = stats;
       this.container.appendChild(stats.dom);
     }
     if (this.isAxis) {
@@ -75,7 +73,7 @@ export default class ThreeBase {
     }
 
     this.animateAction(time);
-    if (this.renderer && this.scene && this.camera) this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera);
     this.threeAnim = requestAnimationFrame(this.animate.bind(this));
   }
   //执行动画动作
@@ -132,7 +130,7 @@ export default class ThreeBase {
     obj?.parent?.remove && obj.parent.remove(obj);
   }
   cleanAll() {
-    cancelAnimationFrame(this.threeAnim);
+    this.threeAnim && cancelAnimationFrame(this.threeAnim);
 
     if (this.stats) {
       this.container.removeChild(this.stats.dom);
@@ -141,7 +139,7 @@ export default class ThreeBase {
 
     this.cleanObj(this.scene);
     this.controls && this.controls.dispose();
-    if (!this.renderer) return;
+
     this.renderer.renderLists && this.renderer.renderLists.dispose();
     this.renderer.dispose && this.renderer.dispose();
     this.renderer.forceContextLoss();
@@ -150,17 +148,15 @@ export default class ThreeBase {
     this.renderer.setAnimationLoop(null);
 
     console.log('清空资源', this.renderer.info);
-    this.renderer = undefined;
+
     THREE.Cache.clear();
     window.removeEventListener('resize', this.onResize.bind(this));
     window.removeEventListener('unload', this.cleanAll.bind(this));
   }
 
   onResize() {
-    if (this.container && this.camera && this.renderer) {
-      this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
-    }
+    this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
   }
 }
