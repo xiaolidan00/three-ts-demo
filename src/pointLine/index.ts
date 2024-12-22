@@ -83,7 +83,7 @@ class CanvasLines {
   onMouseDown(e: PointerEvent) {
     const x = e.offsetX;
     const y = e.offsetY;
-
+    //从后往前遍历节点，后面添加的节点在上面
     for (let i = this.nodes.length - 1; i >= 0; i--) {
       const box = this.nodes[i].box!;
       //鼠标在节点范围内
@@ -360,7 +360,7 @@ const cLine = new CanvasLines({
     {
       id: 'a',
       x: 100,
-      y: 50,
+      y: 200,
       text: '开始节点A',
       fontSize: 14,
       padding: 4,
@@ -371,7 +371,7 @@ const cLine = new CanvasLines({
     {
       id: 'b',
       x: 600,
-      y: 250,
+      y: 350,
       text: '结束节点B',
       fontSize: 14,
       padding: 4,
