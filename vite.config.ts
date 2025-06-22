@@ -1,18 +1,25 @@
-import { defineConfig } from 'vite';
-import urls from './urls';
+import fs from "node:fs";
+import {defineConfig} from "vite";
 
-export default defineConfig(({ mode }) => {
-  console.log(mode);
-  const plugins = [];
+function readSrc() {
+  const inputMap: {[n: string]: string} = {};
+  const files = fs.readdirSync("./src");
+  files.forEach((item: string) => {
+    if (!["utils"].includes(item)) inputMap[item] = `src/${item}/index.ts`;
+  });
+  return inputMap;
+}
+const pages = readSrc();
+fs.writeFileSync("./urls.ts", "export default " + JSON.stringify(pages));
 
+export default defineConfig(({mode}) => {
   return {
-    plugins: plugins,
     build: {
       minify: true,
       rollupOptions: {
-        input: urls.map,
+        input: pages,
         output: {
-          entryFileNames: '[name]/index.js'
+          entryFileNames: "[name]/index.js"
         }
       }
     }

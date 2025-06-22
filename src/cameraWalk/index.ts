@@ -1,9 +1,9 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
 // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import ThreeBase from '../utils/ThreeBase';
-import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
+import {GLTFLoader, type GLTF} from "three/examples/jsm/loaders/GLTFLoader";
+import ThreeBase from "../utils/ThreeBase";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils";
 class MyThree extends ThreeBase {
   keyStates = {
     KeyW: false, //前
@@ -50,25 +50,25 @@ class MyThree extends ThreeBase {
           resolve(gltf.scene);
         },
         (xhr) => {
-          console.log(url, (xhr.loaded / xhr.total) * 100 + '% loaded');
+          console.log(url, (xhr.loaded / xhr.total) * 100 + "% loaded");
         },
         (error) => {
-          console.log('An error happened', error);
+          console.log("An error happened", error);
         }
       );
     });
   }
   changeAction(name: string) {
     if (this.IdleAction && this.WalkAction && this.RunAction)
-      if (name == 'Idle') {
+      if (name == "Idle") {
         this.IdleAction.weight = 1.0;
         this.WalkAction.weight = 0.0;
         this.RunAction.weight = 0.0;
-      } else if (name == 'Walk') {
+      } else if (name == "Walk") {
         this.IdleAction.weight = 0.0;
         this.WalkAction.weight = 1.0;
         this.RunAction.weight = 0.0;
-      } else if (name == 'Run') {
+      } else if (name == "Run") {
         this.IdleAction.weight = 0.0;
         this.WalkAction.weight = 0.0;
         this.RunAction.weight = 1.0;
@@ -92,7 +92,7 @@ class MyThree extends ThreeBase {
     }
     const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries, false);
 
-    const material = new THREE.MeshStandardMaterial({ color: 0x0000ff, transparent: true });
+    const material = new THREE.MeshStandardMaterial({color: 0x0000ff, transparent: true});
     const cube = new THREE.Mesh(mergedGeometry, material);
     cube.castShadow = true;
     cube.receiveShadow = true;
@@ -108,7 +108,7 @@ class MyThree extends ThreeBase {
   async init() {
     if (!this.scene || !this.camera) return;
     this.initLight();
-    await this.loadModel('Xbot.glb');
+    await this.loadModel("Xbot.glb");
     // this.model?.add(this.camera);
     this.camera.position.set(0, 1.6, -5.5);
     this.camera.lookAt(0, 1.6, 0);
@@ -117,16 +117,16 @@ class MyThree extends ThreeBase {
     this.model?.add(cameraGroup);
 
     const geometry = new THREE.PlaneGeometry(500, 500);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+    const material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide});
     const plane = new THREE.Mesh(geometry, material);
     plane.rotateX(-Math.PI * 0.5);
     this.scene.add(plane);
     this.randomBox();
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener("keydown", (event) => {
       const k = event.code as keyof typeof this.keyStates;
       if (this.keyStates[k] !== undefined) this.keyStates[k] = true;
 
-      if (event.code === 'KeyV' && this.camera) {
+      if (event.code === "KeyV" && this.camera) {
         if (this.viewType === 3) {
           // 切换到第一人称
           this.camera.position.z = 1; //相机在人前面一点 看不到人模型即可
@@ -139,12 +139,12 @@ class MyThree extends ThreeBase {
       }
     });
     // 当某个键盘抬起设置对应属性设置为false
-    document.addEventListener('keyup', (event) => {
+    document.addEventListener("keyup", (event) => {
       const k = event.code as keyof typeof this.keyStates;
       if (this.keyStates[k] !== undefined) this.keyStates[k] = false;
     });
 
-    document.addEventListener('mousemove', (event) => {
+    document.addEventListener("mousemove", (event) => {
       if (this.leftmove && this.model) {
         // 左右旋转
         this.model.rotation.y -= event.movementX / 600;
@@ -153,10 +153,10 @@ class MyThree extends ThreeBase {
         cameraGroup.rotation.x -= event.movementY / 600;
       }
     });
-    document.addEventListener('mousedown', () => {
+    document.addEventListener("mousedown", () => {
       this.leftmove = true;
     });
-    document.addEventListener('mouseup', () => {
+    document.addEventListener("mouseup", () => {
       this.leftmove = false;
     });
 
@@ -167,13 +167,13 @@ class MyThree extends ThreeBase {
     if (vL < 0.2) {
       //速度小于0.2切换到站着休息状态
       // 注释如果当前就是Idle状态，不要再次执行changeAction
-      this.changeAction('Idle');
+      this.changeAction("Idle");
     } else if (vL > 0.2 && vL < 4) {
       //步行状态
-      this.changeAction('Walk');
+      this.changeAction("Walk");
     } else if (vL >= 4) {
       //跑步状态
-      this.changeAction('Run');
+      this.changeAction("Run");
     }
   }
   animateAction(time: number) {
@@ -206,11 +206,11 @@ class MyThree extends ThreeBase {
     }
     this.v.addScaledVector(this.v, this.damping); //阻尼减速
     const deltaPos = this.v.clone().multiplyScalar(deltaTime);
-    this.model.position.add(deltaPos); //更新玩家角色的位置
+    this.model?.position.add(deltaPos); //更新玩家角色的位置
     this.mixer?.update(deltaTime);
     this.playerUpdate(deltaTime);
   }
 }
-const mythree = new MyThree(document.getElementById('threeContainer') as HTMLElement);
-mythree.initThree();
+const mythree = new MyThree(document.getElementById("threeContainer") as HTMLElement);
+
 mythree.init();
