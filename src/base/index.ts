@@ -1,28 +1,55 @@
 import * as THREE from 'three';
 
 import ThreeBase from '../utils/ThreeBase';
-import { createGui } from '../utils/gui';
 
 class MyThree extends ThreeBase {
-  dataObj = {
-    num: 0,
-    color: '#FFFFFF',
-    select: 'aaa',
-    switch: false,
-    button: false
-  };
+  // dataObj = {
+  //   num: 0,
+  //   color: '#FFFFFF',
+  //   select: 'aaa',
+  //   switch: false,
+  //   button: false
+  // };
+  isAxis = false;
   constructor(el: HTMLElement) {
     super(el);
   }
   init() {
-    const geometry = new THREE.BoxGeometry(1, 2, 3);
-    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-    const cube = new THREE.Mesh(geometry, material);
-    cube.rotation.z = Math.PI * 0.5;
-    this.scene.add(cube);
+    {
+      const light = new THREE.AmbientLight(0xffffff, 1);
+      this.scene.add(light);
+    }
+    {
+      const light = new THREE.DirectionalLight(0xffffff, 3);
+      light.position.set(5, 5, 5);
+      this.scene.add(light);
+    }
 
-    const box = new THREE.Box3().setFromObject(cube);
-    console.log(cube, box.getSize(cube.parent!.position));
+    {
+      const tex = new THREE.TextureLoader().load('test.jpg');
+      const geometry = new THREE.BoxGeometry(2, 2, 2);
+      const material = new THREE.MeshLambertMaterial({
+        // color: 0xffff00,
+        // transparent: true,
+        // opacity: 0.5,
+        map: tex
+        // wireframe: true
+      });
+      const cube = new THREE.Mesh(geometry, material);
+      cube.receiveShadow = true;
+      cube.castShadow = true;
+      this.scene.add(cube);
+    }
+    // {
+    //   const geometry = new THREE.SphereGeometry(1, 32, 32);
+    //   const material = new THREE.MeshStandardMaterial({
+    //     color: 0x0000ff
+    //     // wireframe: true
+    //   });
+    //   const sphere = new THREE.Mesh(geometry, material);
+    //   this.scene.add(sphere);
+    // }
+
     // this.dataObj = createGui(
     //   this.dataObj,
     //   [

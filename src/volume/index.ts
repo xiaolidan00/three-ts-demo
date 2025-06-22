@@ -8,12 +8,7 @@ import ThreeBase from '../utils/ThreeBase';
 
 class MyThree extends ThreeBase {
   material = new THREE.RawShaderMaterial();
-  parameters = {
-    threshold: 0.25,
-    opacity: 0.25,
-    range: 0.1,
-    steps: 100
-  };
+  parameters = { threshold: 0.6, steps: 200 };
   constructor(el: HTMLElement) {
     super(el);
     this.camera.position.set(0, 0, 2);
@@ -53,48 +48,36 @@ class MyThree extends ThreeBase {
     return texture;
   }
   init() {
-    this.scene.background = new THREE.Color('#E0FFFF');
     const texture = this.create3DTex();
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.RawShaderMaterial({
       glslVersion: THREE.GLSL3,
       uniforms: {
-        base: { value: new THREE.Color(0x798aa0) },
         map: { value: texture },
         cameraPos: { value: new THREE.Vector3() },
-        threshold: { value: 0.25 },
-        opacity: { value: 0.25 },
-        range: { value: 0.1 },
-        steps: { value: 100 },
-        frame: { value: 0 }
+        threshold: { value: 0.6 },
+        steps: { value: 200 }
       },
       vertexShader,
       fragmentShader,
-      side: THREE.BackSide,
-      transparent: true
+      side: THREE.BackSide
     });
     this.material = material;
     const mesh = new THREE.Mesh(geometry, material);
     this.scene.add(mesh);
 
     const gui = new GUI();
-
     gui.add(this.parameters, 'threshold', 0, 1, 0.01).onChange(this.update.bind(this));
-    gui.add(this.parameters, 'opacity', 0, 1, 0.01).onChange(this.update.bind(this));
-    gui.add(this.parameters, 'range', 0, 1, 0.01).onChange(this.update.bind(this));
-    gui.add(this.parameters, 'steps', 0, 200, 1).onChange(this.update.bind(this));
+    gui.add(this.parameters, 'steps', 0, 300, 1).onChange(this.update.bind(this));
 
     this.animate(0);
   }
   update() {
     this.material.uniforms.threshold.value = this.parameters.threshold;
-    this.material.uniforms.opacity.value = this.parameters.opacity;
-    this.material.uniforms.range.value = this.parameters.range;
     this.material.uniforms.steps.value = this.parameters.steps;
   }
   animateAction(time: number) {
     this.material.uniforms.cameraPos.value.copy(this.camera.position);
-    this.material.uniforms.frame.value++;
   }
 }
 const mythree = new MyThree(document.getElementById('threeContainer') as HTMLElement);

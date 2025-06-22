@@ -15,8 +15,7 @@ fs.writeFileSync("./urls.ts", "export default " + JSON.stringify(pages));
 export default defineConfig(({mode}) => {
   return {
     build: {
-      minify: false,
-
+      minify: true,
       rollupOptions: {
         input: pages,
         output: {
