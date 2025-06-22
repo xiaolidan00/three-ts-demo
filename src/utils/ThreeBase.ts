@@ -36,8 +36,8 @@ export default class ThreeBase {
     this.camera = new THREE.PerspectiveCamera(
       45,
       this.container.offsetWidth / this.container.offsetHeight,
-      1,
-      2000
+      0.1,
+      200
     );
 
     this.camera.position.set(1, 1, 10);

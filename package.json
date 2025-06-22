@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "keywords": [],
   "author": "",
@@ -13,11 +14,13 @@
     "@types/three": "^0.169.0",
     "sass-embedded": "^1.79.4",
     "scss": "^0.2.4",
+    "terser": "^5.39.0",
     "tslib": "^2.7.0",
     "typescript": "^5.6.2",
     "vite": "^5.4.8"
   },
   "dependencies": {
+    "cannon-es": "^0.20.0",
     "dat.gui": "^0.7.9",
     "three": "^0.169.0",
     "xcolor-helper": "^1.0.2"

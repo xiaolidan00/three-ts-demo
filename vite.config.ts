@@ -8,8 +8,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: plugins,
     build: {
-      minify: false,
-
+      minify: true,
       rollupOptions: {
         input: urls.map,
         output: {

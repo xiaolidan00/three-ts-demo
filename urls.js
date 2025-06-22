@@ -43,6 +43,16 @@ const urls = [
     title: 'Canvas活动管道',
     name: 'pipe',
     show: true
+  },
+  {
+    title: '体素',
+    name: 'volume',
+    show: true
+  },
+  {
+    title: '云朵',
+    name: 'cloud',
+    show: true
   }
 ];
 const map = {};
