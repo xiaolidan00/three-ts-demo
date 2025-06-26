@@ -1,8 +1,7 @@
-import * as THREE from 'three';
-import * as TWEEN from 'three/examples/jsm/libs/tween.module';
+import * as THREE from "three";
+import * as TWEEN from "three/examples/jsm/libs/tween.module";
 
-import ThreeBase from '../utils/ThreeBase';
-import { createGui } from '../utils/gui';
+import ThreeBase from "../utils/ThreeBase";
 
 class MyThree extends ThreeBase {
   mat?: THREE.ShaderMaterial;
@@ -15,13 +14,13 @@ class MyThree extends ThreeBase {
     directionalLight.position.set(5, 5, 5);
     this.scene.add(directionalLight);
     const geometry = new THREE.SphereGeometry(1, 16, 16);
-    const tex = new THREE.TextureLoader().load('test.jpg');
+    const tex = new THREE.TextureLoader().load("test.jpg");
     // tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
     const mat = new THREE.ShaderMaterial({
       uniforms: {
-        tex: { value: tex },
-        time: { value: 0 },
-        radius: { value: 1 }
+        tex: {value: tex},
+        time: {value: 0},
+        radius: {value: 1}
       },
       vertexShader: `uniform float time;
       uniform float radius;
@@ -48,8 +47,8 @@ gl_FragColor=texture2D(tex,vUv);
     this.clock = new THREE.Clock();
     this.animate(0);
 
-    const tw = new TWEEN.Tween({ time: 0.0 })
-      .to({ time: 1.0 }, 4000)
+    const tw = new TWEEN.Tween({time: 0.0})
+      .to({time: 1.0}, 4000)
       .repeat(Infinity)
       .onUpdate((obj) => {
         if (this.mat) {
@@ -63,6 +62,6 @@ gl_FragColor=texture2D(tex,vUv);
     TWEEN.update();
   }
 }
-const mythree = new MyThree(document.getElementById('threeContainer') as HTMLElement);
+const mythree = new MyThree(document.getElementById("threeContainer") as HTMLElement);
 
 mythree.init();
