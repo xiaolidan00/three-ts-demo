@@ -15,9 +15,10 @@
     "declaration": true,
     "noImplicitThis": false,
     "jsx": "preserve",
-    "lib": ["ESNext", "DOM"]
+    "lib": ["ESNext", "DOM"],
+    "typeRoots": ["node_modules/@types", "src/@types"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"],
 
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{"path": "./tsconfig.node.json"}]
 }
